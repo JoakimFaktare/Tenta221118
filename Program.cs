@@ -1,5 +1,6 @@
 ﻿namespace dtp15_todolist
 {
+    //Joakim Fäktare
     public class Todo
     {
         public static List<TodoItem> list = new List<TodoItem>();
