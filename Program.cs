@@ -106,10 +106,10 @@ namespace dtp15_todolist
             {
                 if (item.status == Active)
                 {
-                    item.Print(verbose: false);
+                    item.Print(verbose);
                 }
             }
-            PrintHeadOrFoot(head: false, verbose);
+            PrintFoot(verbose);
         }
         public static void PrintHelp()
         {
@@ -117,6 +117,7 @@ namespace dtp15_todolist
             Console.WriteLine("hjälp        lista denna hjälp");
             Console.WriteLine("lista        lista alla Aktiva uppdrag i att-göra-listan");
             Console.WriteLine("lista allt   lista alla uppdrag i att-göra-listan");
+            Console.WriteLine("beskriv      lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
             Console.WriteLine("sluta        spara att-göra-listan och sluta");
         }
     }
@@ -147,6 +148,10 @@ namespace dtp15_todolist
                     //Todo.PrintTodoList(verbose: true);
                     else
                        Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
+                }
+                else if (MyIO.Equals(command, "beskriv"))
+                {
+                    Todo.PrintActiveTodoList(verbose: true); // Lagt till utskrift för beskriv
                 }
                 else
                 {
