@@ -1,4 +1,8 @@
-﻿namespace dtp15_todolist
+﻿using static dtp15_todolist.Todo;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace dtp15_todolist
 {
     //Joakim Fäktare
     public class Todo
@@ -95,12 +99,25 @@
             }
             PrintFoot(verbose);
         }
+        public static void PrintActiveTodoList(bool verbose = false) //Metod för aktiva uppdrag.
+        {
+            PrintHead(verbose);
+            foreach (TodoItem item in list)
+            {
+                if (item.status == Active)
+                {
+                    item.Print(verbose: false);
+                }
+            }
+            PrintHeadOrFoot(head: false, verbose);
+        }
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp    lista denna hjälp");
-            Console.WriteLine("lista    lista att-göra-listan");
-            Console.WriteLine("sluta    spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp        lista denna hjälp");
+            Console.WriteLine("lista        lista alla Aktiva uppdrag i att-göra-listan");
+            Console.WriteLine("lista allt   lista alla uppdrag i att-göra-listan");
+            Console.WriteLine("sluta        spara att-göra-listan och sluta");
         }
     }
     class MainClass
@@ -126,9 +143,10 @@
                 else if (MyIO.Equals(command, "lista"))
                 {
                     if (MyIO.HasArgument(command, "allt"))
-                        Todo.PrintTodoList(verbose: true);
-                    else
                         Todo.PrintTodoList(verbose: false);
+                    //Todo.PrintTodoList(verbose: true);
+                    else
+                       Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
                 }
                 else
                 {
@@ -137,6 +155,7 @@
             }
             while (true);
         }
+
     }
     class MyIO
     {
