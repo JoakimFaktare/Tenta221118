@@ -1,6 +1,7 @@
 ﻿using static dtp15_todolist.Todo;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace dtp15_todolist
 {
@@ -103,7 +104,7 @@ namespace dtp15_todolist
             }
             PrintFoot(verbose);
         }
-        public static void AddNewTodoItem()
+        public static void AddNewTodoItem() // ful som stryk men fungerar.
         {
             string task1;
             int prio;
@@ -129,6 +130,21 @@ namespace dtp15_todolist
             }
             PrintFoot(verbose);
         }
+        public static void SaveList() // metod för at spara som fungerar
+        {
+
+            string lastFileName = "test.lis";
+            using (StreamWriter sw = new StreamWriter(lastFileName))
+            {
+                foreach (TodoItem item in list)
+                {
+                    if (item != null)
+                    {
+                        sw.WriteLine($"{item.status}|{item.priority}|{item.task}|{item.taskDescription}");
+                    }
+                }
+            }
+        }
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
@@ -137,6 +153,7 @@ namespace dtp15_todolist
             Console.WriteLine("lista allt   lista alla uppdrag i att-göra-listan");
             Console.WriteLine("beskriv      lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
             Console.WriteLine("ny           lägg till nytt uppdrag i att-göra-listan");
+            Console.WriteLine("ladda        ladda att-göra-lista");
             Console.WriteLine("sluta        spara att-göra-listan och sluta");
         }
     }
@@ -157,6 +174,7 @@ namespace dtp15_todolist
                 }
                 else if (MyIO.Equals(command, "sluta"))
                 {
+                    SaveList();
                     Console.WriteLine("Hej då!");
                     break;
                 }
@@ -164,7 +182,6 @@ namespace dtp15_todolist
                 {
                     if (MyIO.HasArgument(command, "allt"))
                         Todo.PrintTodoList(verbose: false);
-                    //Todo.PrintTodoList(verbose: true);
                     else
                        Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
                 }
@@ -175,6 +192,15 @@ namespace dtp15_todolist
                 else if (MyIO.Equals(command, "ny"))
                 {
                     AddNewTodoItem();
+                }
+                else if (MyIO.Equals(command, "ladda"))
+                {
+                    ReadListFromFile();
+                }
+                else if (MyIO.Equals(command, "spara"))
+                {
+                    SaveList();
+
                 }
                 else
                 {
@@ -203,7 +229,7 @@ namespace dtp15_todolist
             }
             return false;
         }
-        static public bool HasArgument(string rawCommand, string expected)
+        static public bool HasArgument(string rawCommand, string expected) 
         {
             string command = rawCommand.Trim();
             if (command == "") return false;
@@ -212,6 +238,17 @@ namespace dtp15_todolist
                 string[] cwords = command.Split(' ');
                 if (cwords.Length < 2) return false;
                 if (cwords[1] == expected) return true;
+            }
+            return false;
+        }
+        public static bool HasMoreArgument(string rawCommand, string expected, string expected2)
+        {
+            string command = rawCommand.Trim();
+            if (command == "") return false;
+            else
+            {
+                string[] cwords = command.Split(' ');
+                if (cwords[1] == expected && cwords[2] == expected2) return true;
             }
             return false;
         }
