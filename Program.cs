@@ -43,6 +43,10 @@ namespace dtp15_todolist
                 task = field[2];
                 taskDescription = field[3];
             }
+            public TodoItem()
+            {
+
+            }
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -99,6 +103,20 @@ namespace dtp15_todolist
             }
             PrintFoot(verbose);
         }
+        public static void AddNewTodoItem()
+        {
+            string task1;
+            int prio;
+            string description;
+            Console.Write("Uppgiftens namn: ");
+            task1 = Console.ReadLine();
+            Console.Write("Prioritet: ");
+            prio = int.Parse(Console.ReadLine());
+            Console.Write("Beskrivning: ");
+            description = Console.ReadLine();
+            list.Add(new TodoItem() { status = Active, priority = prio, task = task1, taskDescription = description });
+            Console.WriteLine("NYI");
+        }
         public static void PrintActiveTodoList(bool verbose = false) //Metod för aktiva uppdrag.
         {
             PrintHead(verbose);
@@ -118,6 +136,7 @@ namespace dtp15_todolist
             Console.WriteLine("lista        lista alla Aktiva uppdrag i att-göra-listan");
             Console.WriteLine("lista allt   lista alla uppdrag i att-göra-listan");
             Console.WriteLine("beskriv      lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
+            Console.WriteLine("ny           lägg till nytt uppdrag i att-göra-listan");
             Console.WriteLine("sluta        spara att-göra-listan och sluta");
         }
     }
@@ -152,6 +171,10 @@ namespace dtp15_todolist
                 else if (MyIO.Equals(command, "beskriv"))
                 {
                     Todo.PrintActiveTodoList(verbose: true); // Lagt till utskrift för beskriv
+                }
+                else if (MyIO.Equals(command, "ny"))
+                {
+                    AddNewTodoItem();
                 }
                 else
                 {
