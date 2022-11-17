@@ -29,7 +29,7 @@ namespace dtp15_todolist
             public int priority;
             public string task;
             public string taskDescription;
-            public TodoItem(int priority, string task)
+            public TodoItem(int priority, string task, string taskDescription)
             {
                 this.status = Active;
                 this.priority = priority;
@@ -44,10 +44,10 @@ namespace dtp15_todolist
                 task = field[2];
                 taskDescription = field[3];
             }
-            public TodoItem()
-            {
+            //public TodoItem()
+            //{
 
-            }
+            //}
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -60,7 +60,7 @@ namespace dtp15_todolist
         }
         public static void ReadListFromFile()
         {
-            string todoFileName = "todo.lis";
+            string todoFileName = "test.lis";
             Console.Write($"Läser från fil {todoFileName} ... ");
             StreamReader sr = new StreamReader(todoFileName);
             int numRead = 0;
@@ -104,19 +104,43 @@ namespace dtp15_todolist
             }
             PrintFoot(verbose);
         }
-        public static void AddNewTodoItem() // ful som stryk men fungerar.
+        public static void AddNewTodoItem()
         {
-            string task1;
-            int prio;
-            string description;
-            Console.Write("Uppgiftens namn: ");
-            task1 = Console.ReadLine();
-            Console.Write("Prioritet: ");
-            prio = int.Parse(Console.ReadLine());
-            Console.Write("Beskrivning: ");
-            description = Console.ReadLine();
-            list.Add(new TodoItem() { status = Active, priority = prio, task = task1, taskDescription = description });
-            Console.WriteLine("NYI");
+            string task = MyIO.ReadCommand("Skriv in uppgift: ");
+            int prio = int.Parse(MyIO.ReadCommand("Skriv in prioritet: "));
+            string taskDescription = MyIO.ReadCommand("Skriv beskrivning för uppgiften: "); ;
+            Todo.TodoItem item = new Todo.TodoItem(prio, task, taskDescription);
+            Todo.list.Add(item);
+        }
+        public static void ChangeStatus(string command) 
+        {
+            bool check = false;
+            string[] cwords = command.Split(' ');
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].task == $"{cwords[1]} {cwords[2]}" && list[i].status != Active && cwords[0] == "aktivera")
+                {
+                    list[i].status = 1;
+                    Console.WriteLine($"{list[i].task} status har uppdaterats till 'aktiv'.");
+                    check = true;
+                }
+                else if (list[i].task == $"{cwords[1]} {cwords[2]}" && list[i].status != Waiting && cwords[0] == "vänta")
+                {
+                    list[i].status = 2;
+                    Console.WriteLine($"{list[i].task} status har uppdaterats till 'väntande'.");
+                    check=true;
+                }
+                else if (list[i].task == $"{cwords[1]} {cwords[2]}" && list[i].status != Ready && cwords[0] == "klar")
+                {
+                    list[i].status = 3;
+                    Console.WriteLine($"{list[i].task} status har uppdaterats till 'klar'.");
+                    check = true;
+                }
+            }
+            if (check == false)
+            {
+                Console.WriteLine("Kommando felaktigt");
+            }
         }
         public static void PrintActiveTodoList(bool verbose = false) //Metod för aktiva uppdrag.
         {
@@ -154,6 +178,7 @@ namespace dtp15_todolist
             Console.WriteLine("beskriv      lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
             Console.WriteLine("ny           lägg till nytt uppdrag i att-göra-listan");
             Console.WriteLine("ladda        ladda att-göra-lista");
+            Console.WriteLine("spara        spara att-göra-listan");
             Console.WriteLine("sluta        spara att-göra-listan och sluta");
         }
     }
@@ -174,7 +199,7 @@ namespace dtp15_todolist
                 }
                 else if (MyIO.Equals(command, "sluta"))
                 {
-                    SaveList();
+                    //SaveList();
                     Console.WriteLine("Hej då!");
                     break;
                 }
@@ -200,7 +225,10 @@ namespace dtp15_todolist
                 else if (MyIO.Equals(command, "spara"))
                 {
                     SaveList();
-
+                }
+                else if (MyIO.Equals(command, "klar"))
+                {
+                    ChangeStatus(command);
                 }
                 else
                 {
@@ -238,17 +266,6 @@ namespace dtp15_todolist
                 string[] cwords = command.Split(' ');
                 if (cwords.Length < 2) return false;
                 if (cwords[1] == expected) return true;
-            }
-            return false;
-        }
-        public static bool HasMoreArgument(string rawCommand, string expected, string expected2)
-        {
-            string command = rawCommand.Trim();
-            if (command == "") return false;
-            else
-            {
-                string[] cwords = command.Split(' ');
-                if (cwords[1] == expected && cwords[2] == expected2) return true;
             }
             return false;
         }
