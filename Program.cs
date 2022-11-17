@@ -44,10 +44,6 @@ namespace dtp15_todolist
                 task = field[2];
                 taskDescription = field[3];
             }
-            //public TodoItem()
-            //{
-
-            //}
             public void Print(bool verbose = false)
             {
                 string statusString = StatusToString(status);
@@ -64,7 +60,6 @@ namespace dtp15_todolist
             Console.Write($"Läser från fil {todoFileName} ... ");
             StreamReader sr = new StreamReader(todoFileName);
             int numRead = 0;
-
             string line;
             while ((line = sr.ReadLine()) != null)
             {
@@ -156,7 +151,6 @@ namespace dtp15_todolist
         }
         public static void SaveList() // metod för at spara som fungerar
         {
-
             string lastFileName = "test.lis";
             using (StreamWriter sw = new StreamWriter(lastFileName))
             {
@@ -172,14 +166,17 @@ namespace dtp15_todolist
         public static void PrintHelp()
         {
             Console.WriteLine("Kommandon:");
-            Console.WriteLine("hjälp        lista denna hjälp");
-            Console.WriteLine("lista        lista alla Aktiva uppdrag i att-göra-listan");
-            Console.WriteLine("lista allt   lista alla uppdrag i att-göra-listan");
-            Console.WriteLine("beskriv      lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
-            Console.WriteLine("ny           lägg till nytt uppdrag i att-göra-listan");
-            Console.WriteLine("ladda        ladda att-göra-lista");
-            Console.WriteLine("spara        spara att-göra-listan");
-            Console.WriteLine("sluta        spara att-göra-listan och sluta");
+            Console.WriteLine("hjälp________________lista denna hjälp");
+            Console.WriteLine("ladda________________ladda att-göra-lista");
+            Console.WriteLine("lista________________lista alla Aktiva uppdrag i att-göra-listan");
+            Console.WriteLine("lista allt___________lista alla uppdrag i att-göra-listan");
+            Console.WriteLine("beskriv______________lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
+            Console.WriteLine("ny___________________lägg till nytt uppdrag i att-göra-listan");
+            Console.WriteLine("klar *uppgift*_______sätter status på uppgift till 'avklarad'");
+            Console.WriteLine("vänta *uppgift*______sätter status på uppgift till 'avklarad'");
+            Console.WriteLine("aktivera *uppgift*___sätter status på uppgift till 'avklarad'");
+            Console.WriteLine("spara________________spara att-göra-listan");
+            Console.WriteLine("sluta________________spara att-göra-listan och sluta");
         }
     }
     class MainClass
@@ -187,7 +184,6 @@ namespace dtp15_todolist
         public static void Main(string[] args)
         {
             Console.WriteLine("Välkommen till att-göra-listan!");
-            Todo.ReadListFromFile();
             Todo.PrintHelp();
             string command;
             do
@@ -199,7 +195,7 @@ namespace dtp15_todolist
                 }
                 else if (MyIO.Equals(command, "sluta"))
                 {
-                    //SaveList();
+                    SaveList();
                     Console.WriteLine("Hej då!");
                     break;
                 }
@@ -227,6 +223,14 @@ namespace dtp15_todolist
                     SaveList();
                 }
                 else if (MyIO.Equals(command, "klar"))
+                {
+                    ChangeStatus(command);
+                }
+                else if (MyIO.Equals(command, "vänta"))
+                {
+                    ChangeStatus(command);
+                }
+                else if (MyIO.Equals(command, "aktivera"))
                 {
                     ChangeStatus(command);
                 }
