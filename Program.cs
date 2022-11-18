@@ -57,7 +57,7 @@ namespace dtp15_todolist
         }
         public static void ReadListFromFile()
         {
-            string todoFileName = "test.lis"; // ändra till todo.lis innan sista inlämning!!!!
+            string todoFileName = "todo.lis"; 
             Console.Write($"Läser från fil {todoFileName} ... ");
             StreamReader sr = new StreamReader(todoFileName);
             int numRead = 0;
@@ -138,29 +138,33 @@ namespace dtp15_todolist
                 Console.WriteLine("Kommando felaktigt");
             }
         }
-        public static void PrintActiveTodoList(bool verbose = false) //Metod för aktiva uppdrag.
+        public static void PrintActiveTodoList( bool verbose = false) 
         {
             PrintHead(verbose);
             foreach (TodoItem item in list)
-            {
                 if (item.status == Active)
-                {
                     item.Print(verbose);
-                }
-            }
             PrintFoot(verbose);
         }
-        //public static void PrintDescribeAll(bool verbose = false)
-        //{
-        //    PrintHead(verbose)
-        //        foreach (TodoItem item in list)
-        //    {
-                
-        //    }
-        //}
-        public static void SaveList() // metod för at spara som fungerar
+        public static void PrintWaitingTodolist(bool verbose = false)
         {
-            string lastFileName = "test.lis"; // ändra till todo.lis innan sista inlämning!!!!
+            PrintHead(verbose);
+            foreach (TodoItem item in list)
+                if (item.status == Waiting)
+                    item.Print(verbose);
+            PrintFoot(verbose);
+        }
+        public static void PrintReadyTodolist(bool verbose = false)
+        {
+            PrintHead(verbose);
+            foreach (TodoItem item in list)
+                if (item.status == Ready)
+                    item.Print(verbose);
+            PrintFoot(verbose);
+        }
+        public static void SaveList()
+        {
+            string lastFileName = "todo.lis"; 
             using (StreamWriter sw = new StreamWriter(lastFileName))
             {
                 foreach (TodoItem item in list)
@@ -213,15 +217,19 @@ namespace dtp15_todolist
                 {
                     if (MyIO.HasArgument(command, "allt"))
                         Todo.PrintTodoList(verbose: false);
+                    else if (MyIO.HasArgument(command, "väntande"))
+                        Todo.PrintWaitingTodolist(verbose: false);
+                    else if (MyIO.HasArgument(command, "klara"))
+                        Todo.PrintReadyTodolist(verbose: false);
                     else
-                        Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
+                        Todo.PrintActiveTodoList(); 
                 }
                 else if (MyIO.Equals(command, "beskriv"))
                 {
                     if (MyIO.HasArgument(command, "allt"))
                         Todo.PrintTodoList(verbose: true);
                     else
-                    Todo.PrintActiveTodoList(verbose: true); // Lagt till utskrift för beskriv
+                    Todo.PrintActiveTodoList(verbose: true); 
                 }
                 else if (MyIO.Equals(command, "ny"))
                 {
