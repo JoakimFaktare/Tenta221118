@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 
 namespace dtp15_todolist
 {
@@ -56,7 +57,7 @@ namespace dtp15_todolist
         }
         public static void ReadListFromFile()
         {
-            string todoFileName = "test.lis";
+            string todoFileName = "test.lis"; // ändra till todo.lis innan sista inlämning!!!!
             Console.Write($"Läser från fil {todoFileName} ... ");
             StreamReader sr = new StreamReader(todoFileName);
             int numRead = 0;
@@ -149,9 +150,17 @@ namespace dtp15_todolist
             }
             PrintFoot(verbose);
         }
+        //public static void PrintDescribeAll(bool verbose = false)
+        //{
+        //    PrintHead(verbose)
+        //        foreach (TodoItem item in list)
+        //    {
+                
+        //    }
+        //}
         public static void SaveList() // metod för at spara som fungerar
         {
-            string lastFileName = "test.lis";
+            string lastFileName = "test.lis"; // ändra till todo.lis innan sista inlämning!!!!
             using (StreamWriter sw = new StreamWriter(lastFileName))
             {
                 foreach (TodoItem item in list)
@@ -171,6 +180,7 @@ namespace dtp15_todolist
             Console.WriteLine("lista________________lista alla Aktiva uppdrag i att-göra-listan");
             Console.WriteLine("lista allt___________lista alla uppdrag i att-göra-listan");
             Console.WriteLine("beskriv______________lista alla Aktiva uppdrag i att-göra-listan med beskrivning");
+            Console.WriteLine("beskriv allt---------lista alla uppdrag med beskrivning");
             Console.WriteLine("ny___________________lägg till nytt uppdrag i att-göra-listan");
             Console.WriteLine("klar *uppgift*_______sätter status på uppgift till 'avklarad'");
             Console.WriteLine("vänta *uppgift*______sätter status på uppgift till 'avklarad'");
@@ -204,10 +214,13 @@ namespace dtp15_todolist
                     if (MyIO.HasArgument(command, "allt"))
                         Todo.PrintTodoList(verbose: false);
                     else
-                       Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
+                        Todo.PrintActiveTodoList(); // Lagt till ny metod för att skriva ut aktiva uppdrag.
                 }
                 else if (MyIO.Equals(command, "beskriv"))
                 {
+                    if (MyIO.HasArgument(command, "allt"))
+                        Todo.PrintTodoList(verbose: true);
+                    else
                     Todo.PrintActiveTodoList(verbose: true); // Lagt till utskrift för beskriv
                 }
                 else if (MyIO.Equals(command, "ny"))
