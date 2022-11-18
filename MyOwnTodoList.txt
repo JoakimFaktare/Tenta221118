@@ -1,0 +1,13 @@
+1.	Skapa github repos 
+2.	Implementera ”beskriv” lista alla aktiva uppgifter, status, prio namn och beskrivning
+3.	Ändra ”lista” till bara aktiva uppgifter med status, prio och namn
+4.	Ändra ”lista allt” till att alla uppgifter skrivs ut oavsett status och att status, prio och namn ska skrivas med.
+5.	Implementera ”ny” som ska lägga till en uppgift i listan <List.Add>.
+6.	Implementera ”spara” – sparar uppgift i todo.lis
+7.	Lägg till funktion för att spara senast laddade filen innan avslut i kommando ”sluta”
+8.	Implementera ”Aktivera /uppgift/” – sätter status till Active
+9.	Implementera ”klar /uppgift” – sätter status till ready
+10.	Implementera ”vänta /uppgift” – sätter status till Waiting
+11.	Implementera ”beskriv allt” – lista alla uppgifter med beskrivning
+12.	Implementera ”lista väntande” – listar alla väntande uppdrag
+13.	Implementera ”lista klara” – listar alla väntande uppgifter
